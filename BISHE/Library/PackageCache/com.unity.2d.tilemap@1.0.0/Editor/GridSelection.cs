@@ -7,18 +7,14 @@ namespace UnityEditor.Tilemaps
 {
     /// <summary>Stores the selection made on a GridLayout.</summary>
     [MovedFrom(true, "UnityEditor", "UnityEditor")]
-    [Serializable]
+    [HelpURL("https://docs.unity3d.com/Manual/TilemapPainting-SelectionTool.html#GridSelect")]
     public class GridSelection : ScriptableObject
     {
-        public static string kUpdateGridSelection = L10n.Tr("Update Grid Selection");
-
         /// <summary>Callback for when the active GridSelection has changed.</summary>
         public static event Action gridSelectionChanged;
-        [SerializeField]
         private BoundsInt m_Position;
         private GameObject m_Target;
-        [SerializeField]
-        private Object m_PreviousSelection;
+        [SerializeField] private Object m_PreviousSelection;
 
         /// <summary>Whether there is an active GridSelection made on a GridLayout.</summary>
         public static bool active { get { return Selection.activeObject is GridSelection && selection.m_Target != null; } }
@@ -33,7 +29,6 @@ namespace UnityEditor.Tilemaps
             {
                 if (selection != null && selection.m_Position != value)
                 {
-                    RegisterUndo();
                     selection.m_Position = value;
                     if (gridSelectionChanged != null)
                         gridSelectionChanged();
@@ -66,18 +61,11 @@ namespace UnityEditor.Tilemaps
         {
             if (active)
             {
-                RegisterUndo();
                 selection.m_Position = new BoundsInt();
                 Selection.activeObject = selection.m_PreviousSelection;
                 if (gridSelectionChanged != null)
                     gridSelectionChanged();
             }
-        }
-
-        internal static void RegisterUndo()
-        {
-            if (selection != null)
-                Undo.RegisterCompleteObjectUndo(selection, kUpdateGridSelection);
         }
     }
 }
