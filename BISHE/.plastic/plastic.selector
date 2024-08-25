@@ -1,0 +1,4 @@
+repository "BISHE@wechat_os_qy0z2tvlwar27kajfxh8nqvhu@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"
