@@ -211,16 +211,6 @@ namespace UnityEngine.UI.Tests
             Assert.True(selectable.isStateHighlighted);
         }
 
-        [Test]
-        public void InstantiatingSelectableUnderNotInteractableCanvasGroupShouldAlsoNotBeInteractable()
-        {
-            var canvasGroup = CreateAndParentGroupTo("ParentGroup", selectable.gameObject);
-            canvasGroup.interactable = false;
-            Assert.False(canvasGroup.interactable);
-            var newSelectable = Object.Instantiate(selectable.gameObject, canvasGroup.transform).GetComponent<SelectableTest>();
-            Assert.False(newSelectable.IsInteractable());
-        }
-
         #endregion
 
         #region Tweening
@@ -338,6 +328,15 @@ namespace UnityEngine.UI.Tests
             Assert.True(selectable.isStateNormal);
             selectable.InvokeOnPointerEnter(null);
             Assert.True(selectable.isStateHighlighted);
+        }
+
+        [Test]
+        public void PointerEnterOnSelectedObjectShouldStaySelected()
+        {
+            selectable.InvokeOnSelect(null);
+            Assert.True(selectable.isStateSelected);
+            selectable.InvokeOnPointerEnter(null);
+            Assert.True(selectable.isStateSelected);
         }
 
         [Test]
